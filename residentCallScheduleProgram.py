@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import Day
 import datetime
 
@@ -12,8 +11,8 @@ def main():
     importFromCSV()
     
     # Get this info from CSV:
-    startDate = datetime.datetime(2022, 7, 1)
-    endDate = datetime.datetime(2023, 6, 30)
+    startDate = datetime.date(2022, 7, 1)
+    endDate = datetime.date(2023, 6, 30)
     makeListOfDates(startDate, endDate)
     
     assignHolidays()
@@ -30,13 +29,17 @@ def importFromCSV():
     
 def makeListOfDates(startDate, endDate):
     print "Making list of all shift dates"
-        
-    allDates = []
-    allDates.append(startDate)
-    allDates.append(endDate)
     
-    for date in allDates:
-        print date
+    allDates = []
+    currentDay = startDate
+    
+    # Add all dates between Start and End dates
+    while True:
+        allDates.append(currentDay)
+        #print "added", currentDay
+        currentDay += datetime.timedelta(days=1)
+        if currentDay > endDate:
+            break
     return
     
 #assign holidays
