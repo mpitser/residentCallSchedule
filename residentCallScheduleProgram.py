@@ -13,7 +13,9 @@ def main():
     # Get this info from CSV:
     startDate = datetime.date(2022, 7, 1)
     endDate = datetime.date(2023, 6, 30)
-    makeListOfDates(startDate, endDate)
+    dates = makeListOfDates(startDate, endDate)
+    #for date in dates:
+    #    print date.day
     
     assignHolidays()
     assignNightFloat()
@@ -35,12 +37,11 @@ def makeListOfDates(startDate, endDate):
     
     # Add all dates between Start and End dates
     while True:
-        allDates.append(currentDay)
-        #print "added", currentDay
+        allDates.append(Day.Day(currentDay))
         currentDay += datetime.timedelta(days=1)
         if currentDay > endDate:
             break
-    return
+    return allDates
     
 #assign holidays
 def assignHolidays():
