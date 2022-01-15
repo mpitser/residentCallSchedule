@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import Day
+import datetime
 
 #inputs: CSV file with resident names, vacation dates, off service months, PGY
 #        CSV file with shifts and days
@@ -8,6 +10,12 @@
 def main():
     print "Welcome to the Resident Call Schedule Generator!"
     importFromCSV()
+    
+    # Get this info from CSV:
+    startDate = datetime.datetime(2022, 7, 1)
+    endDate = datetime.datetime(2023, 6, 30)
+    makeListOfDates(startDate, endDate)
+    
     assignHolidays()
     assignNightFloat()
     assignFridays()
@@ -19,7 +27,18 @@ def main():
 def importFromCSV():
     print "Importing data from CSV files"
     return
-
+    
+def makeListOfDates(startDate, endDate):
+    print "Making list of all shift dates"
+        
+    allDates = []
+    allDates.append(startDate)
+    allDates.append(endDate)
+    
+    for date in allDates:
+        print date
+    return
+    
 #assign holidays
 def assignHolidays():
     print "Assigning Holidays"
