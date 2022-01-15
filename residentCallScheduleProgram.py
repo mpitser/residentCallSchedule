@@ -29,6 +29,8 @@ def main():
     assignFridays()
     assignOpenShifts()
     exportToCSV()
+    
+    #PRINT AVAILABILITY
     for date in dates:
        for shift in date.shifts:
             print date.day, shift.time, shift.residentAssigned.name, shift.residentsAvailable[0].name
@@ -70,7 +72,7 @@ def updateAvailability(dates, residents):
                     for shift in date.shifts:
                         for residentAvailable in shift.residentsAvailable:
                             if residentAvailable.name == resident.name:
-                                #shift.residentsAvailable.remove(residentAvailable)
+                                shift.residentsAvailable.remove(residentAvailable)
                                 print "removing", residentAvailable.name
     #remove offservice months
     #remove Fridays for PGY1s
