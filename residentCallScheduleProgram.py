@@ -1,5 +1,6 @@
 import Day
 import Shift
+import Resident
 import datetime
 
 #inputs: CSV file with resident names, vacation dates, off service months, PGY
@@ -15,10 +16,11 @@ def main():
     startDate = datetime.date(2022, 7, 1)
     endDate = datetime.date(2023, 6, 30)
     dates = makeListOfDates(startDate, endDate)
-    #for date in dates:
-    #   for shift in date.shifts:
-    #        print date.day, shift.time, shift.resident
+    for date in dates:
+       for shift in date.shifts:
+            print date.day, shift.time, shift.residentAssigned.name
     
+    updateAvailability()
     assignHolidays()
     assignNightFloat()
     assignFridays()
@@ -34,18 +36,26 @@ def importFromCSV():
 def makeListOfDates(startDate, endDate):
     print "Making list of all shift dates"
     
+    allResidents = [Resident.Resident("Res1", "PGY1"), Resident.Resident("Res2", "PGY2"), Resident.Resident("Res3", "PGY3")]
     allDates = []
     currentDay = startDate
     
     # Add all dates between Start and End dates
     while True:
-        shifts = [Shift.Shift("Day", "Unassigned"), Shift.Shift("ShortCall", "Unassigned"), Shift.Shift("Night", "Unassigned")]
+        shifts = [Shift.Shift("Day", allResidents), Shift.Shift("ShortCall", allResidents), Shift.Shift("Night", allResidents)]
         allDates.append(Day.Day(currentDay, shifts))
         currentDay += datetime.timedelta(days=1)
         if currentDay > endDate:
             break
     return allDates
     
+#Update Availability
+def updateAvailability():
+    print "Updating resident availability"
+    #remove vacation days
+    #remove offservice months
+    return
+
 #assign holidays
 def assignHolidays():
     print "Assigning Holidays"
