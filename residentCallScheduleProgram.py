@@ -1,6 +1,7 @@
 import Day
 import Shift
 import Resident
+import Month
 import datetime
 
 #inputs: CSV file with resident names, vacation dates, off service months, PGY
@@ -25,7 +26,7 @@ def main():
     dates = makeListOfDates(startDate, endDate, allResidents)
     updateAvailability(dates, allResidents)
     assignHolidays()
-    assignNightFloat()
+    assignNightFloat(allResidents, dates)
     assignFridays()
     assignOpenShifts()
     exportToCSV()
@@ -88,6 +89,7 @@ def updateAvailability(dates, residents):
             if resident.year == "PGY1":
                 if date.day.strftime('%A') == "Friday":
                     print "it's a PGY1 Friday."
+                    #TODO - only remove from nighttime shifts
                     removeResidentFromShifts(date, resident)
                     
     return
@@ -98,8 +100,14 @@ def assignHolidays():
     return
     
 #assign night float
-def assignNightFloat():
+def assignNightFloat(residents, dates):
     print "Assigning Night Float"
+    
+    # make a list of who is available for certain months
+    months = [Month.Month("January", residents), Month.Month("February", residents), Month.Month("March", residents), Month.Month("April", residents), Month.Month("May", residents), Month.Month("June", residents), Month.Month("July", residents), Month.Month("August", residents), Month.Month("September", residents), Month.Month("October", residents), Month.Month("November", residents), Month.Month("December", residents)]
+    
+    #TODO
+    
     return
     
 #assign Fridays
