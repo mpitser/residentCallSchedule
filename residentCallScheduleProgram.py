@@ -84,9 +84,12 @@ def updateAvailability(dates, residents):
                     print "it's an offservice month"
                     removeResidentFromShifts(date, resident)
                     
-    
-    
-    #remove Fridays for PGY1s
+            #remove Fridays for PGY1s
+            if resident.year == "PGY1":
+                if date.day.strftime('%A') == "Friday":
+                    print "it's a PGY1 Friday."
+                    removeResidentFromShifts(date, resident)
+                    
     return
 
 #assign holidays
