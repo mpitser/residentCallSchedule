@@ -13,19 +13,26 @@ def main():
     importFromCSV()
     
     # Get this info from CSV:
+    res1 = Resident.Resident("Res1", "PGY1")
+    res1.addOffserviceMonths(["October", "March"])
+    res1.addVacationDays([datetime.date(2023, 6, 30)])
+    res2 = Resident.Resident("Res2", "PGY2")
+    res3 = Resident.Resident("Res3", "PGY3")
+    allResidents = [res1, res2, res3]
     startDate = datetime.date(2022, 7, 1)
     endDate = datetime.date(2023, 6, 30)
-    dates = makeListOfDates(startDate, endDate)
-    for date in dates:
-       for shift in date.shifts:
-            print date.day, shift.time, shift.residentAssigned.name
     
-    updateAvailability()
+    dates = makeListOfDates(startDate, endDate, allResidents)
+    updateAvailability(dates, allResidents)
     assignHolidays()
     assignNightFloat()
     assignFridays()
     assignOpenShifts()
     exportToCSV()
+    for date in dates:
+       for shift in date.shifts:
+            print date.day, shift.time, shift.residentAssigned.name, shift.residentsAvailable[0].name
+    
     return
 
 #import data from CSV files
@@ -33,16 +40,16 @@ def importFromCSV():
     print "Importing data from CSV files"
     return
     
-def makeListOfDates(startDate, endDate):
+def makeListOfDates(startDate, endDate, residents):
     print "Making list of all shift dates"
     
-    allResidents = [Resident.Resident("Res1", "PGY1"), Resident.Resident("Res2", "PGY2"), Resident.Resident("Res3", "PGY3")]
+    
     allDates = []
     currentDay = startDate
     
     # Add all dates between Start and End dates
     while True:
-        shifts = [Shift.Shift("Day", allResidents), Shift.Shift("ShortCall", allResidents), Shift.Shift("Night", allResidents)]
+        shifts = [Shift.Shift("Day", residents), Shift.Shift("ShortCall", residents), Shift.Shift("Night", residents)]
         allDates.append(Day.Day(currentDay, shifts))
         currentDay += datetime.timedelta(days=1)
         if currentDay > endDate:
@@ -50,10 +57,23 @@ def makeListOfDates(startDate, endDate):
     return allDates
     
 #Update Availability
-def updateAvailability():
+def updateAvailability(dates, residents):
     print "Updating resident availability"
-    #remove vacation days
+   
+    # remove vacation days
+    for date in dates:
+        for resident in residents:
+            #print "Checking if", resident.name, "can work on", date.day
+            for vacationDay in resident.vacationDays:
+                if vacationDay == date.day:
+                    print "it's a vacation"
+                    for shift in date.shifts:
+                        for residentAvailable in shift.residentsAvailable:
+                            if residentAvailable.name == resident.name:
+                                #shift.residentsAvailable.remove(residentAvailable)
+                                print "removing", residentAvailable.name
     #remove offservice months
+    #remove Fridays for PGY1s
     return
 
 #assign holidays
