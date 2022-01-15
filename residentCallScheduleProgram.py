@@ -57,24 +57,35 @@ def makeListOfDates(startDate, endDate, residents):
         if currentDay > endDate:
             break
     return allDates
-    
+
+def removeResidentFromShifts(date, resident):
+    for shift in date.shifts:
+        for residentAvailable in shift.residentsAvailable:
+            if residentAvailable.name == resident.name:
+                shift.residentsAvailable.remove(residentAvailable)
+                #print "removing", residentAvailable.name
+ 
 #Update Availability
 def updateAvailability(dates, residents):
     print "Updating resident availability"
    
-    # remove vacation days
     for date in dates:
         for resident in residents:
-            #print "Checking if", resident.name, "can work on", date.day
+        
+            # remove vacation days
             for vacationDay in resident.vacationDays:
                 if vacationDay == date.day:
                     print "it's a vacation"
-                    for shift in date.shifts:
-                        for residentAvailable in shift.residentsAvailable:
-                            if residentAvailable.name == resident.name:
-                                shift.residentsAvailable.remove(residentAvailable)
-                                print "removing", residentAvailable.name
-    #remove offservice months
+                    removeResidentFromShifts(date, resident)
+                    
+            #remove offservice months
+            for offserviceMonth in resident.offserviceMonths:
+                if date.day.strftime("%B") == offserviceMonth:
+                    print "it's an offservice month"
+                    removeResidentFromShifts(date, resident)
+                    
+    
+    
     #remove Fridays for PGY1s
     return
 
