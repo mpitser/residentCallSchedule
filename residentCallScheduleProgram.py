@@ -33,7 +33,7 @@ def main():
     #PRINT AVAILABILITY
     for date in dates:
        for shift in date.shifts:
-            print date.day, shift.time, shift.residentAssigned.name, shift.residentsAvailable[0].name
+            print date.day, shift.time, shift.residentAssigned.name, [availableResident.name for availableResident in shift.residentsAvailable]
     
     return
 
