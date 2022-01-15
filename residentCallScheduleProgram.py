@@ -1,4 +1,5 @@
 import Day
+import Shift
 import datetime
 
 #inputs: CSV file with resident names, vacation dates, off service months, PGY
@@ -15,7 +16,8 @@ def main():
     endDate = datetime.date(2023, 6, 30)
     dates = makeListOfDates(startDate, endDate)
     #for date in dates:
-    #    print date.day
+    #   for shift in date.shifts:
+    #        print date.day, shift.time, shift.resident
     
     assignHolidays()
     assignNightFloat()
@@ -37,7 +39,8 @@ def makeListOfDates(startDate, endDate):
     
     # Add all dates between Start and End dates
     while True:
-        allDates.append(Day.Day(currentDay))
+        shifts = [Shift.Shift("Day", "Unassigned"), Shift.Shift("ShortCall", "Unassigned"), Shift.Shift("Night", "Unassigned")]
+        allDates.append(Day.Day(currentDay, shifts))
         currentDay += datetime.timedelta(days=1)
         if currentDay > endDate:
             break
