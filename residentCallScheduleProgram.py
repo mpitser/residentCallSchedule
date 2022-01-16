@@ -69,8 +69,6 @@ def removeResidentFromShifts(date, resident, shiftsToRemove):
 #Update Availability
 def updateAvailability(dates, residents):
     print "Updating resident availability"
-    
-    allShifts = ["Day", "ShortCall", "Night"]
    
     for date in dates:
         for resident in residents:
@@ -79,19 +77,19 @@ def updateAvailability(dates, residents):
             for vacationDay in resident.vacationDays:
                 if vacationDay == date.day:
                     print "it's a vacation"
-                    removeResidentFromShifts(date, resident, allShifts)
+                    removeResidentFromShifts(date, resident, Shift.Shift.allShifts)
                     
             #remove offservice months
             for offserviceMonth in resident.offserviceMonths:
                 if date.day.strftime("%B") == offserviceMonth:
                     print "it's an offservice month"
-                    removeResidentFromShifts(date, resident, allShifts)
+                    removeResidentFromShifts(date, resident, Shift.Shift.allShifts)
                     
             #remove Fridays for PGY1s
             if resident.year == "PGY1":
                 if date.day.strftime('%A') == "Friday":
                     print "it's a PGY1 Friday."
-                    removeResidentFromShifts(date, resident, ["Night"])
+                    removeResidentFromShifts(date, resident, [Shift.Shift.night])
                     
     return
 
