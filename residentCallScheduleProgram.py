@@ -106,7 +106,7 @@ def assignNightFloat(residents, dates):
     # make a list of who is available for certain months
     months = [Month.Month("January", residents), Month.Month("February", residents), Month.Month("March", residents), Month.Month("April", residents), Month.Month("May", residents), Month.Month("June", residents), Month.Month("July", residents), Month.Month("August", residents), Month.Month("September", residents), Month.Month("October", residents), Month.Month("November", residents), Month.Month("December", residents)]
     
-    #TODO
+    #TODO remove resident if they are offservice OR they have a vacation during the month
     
     return
     
