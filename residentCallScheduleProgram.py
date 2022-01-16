@@ -32,9 +32,9 @@ def main():
     exportToCSV()
     
     #PRINT AVAILABILITY
-    for date in dates:
-       for shift in date.shifts:
-            print date.day, shift.time, shift.residentAssigned.name, [availableResident.name for availableResident in shift.residentsAvailable]
+    #for date in dates:
+    #for shift in date.shifts:
+    #print date.day, shift.time, shift.residentAssigned.name, [availableResident.name for availableResident in shift.residentsAvailable]
     
     return
 
@@ -106,7 +106,19 @@ def assignNightFloat(residents, dates):
     # make a list of who is available for certain months
     months = [Month.Month("January", residents), Month.Month("February", residents), Month.Month("March", residents), Month.Month("April", residents), Month.Month("May", residents), Month.Month("June", residents), Month.Month("July", residents), Month.Month("August", residents), Month.Month("September", residents), Month.Month("October", residents), Month.Month("November", residents), Month.Month("December", residents)]
     
-    #TODO remove resident if they are offservice OR they have a vacation during the month
+    #Remove resident if they are offservice OR they have a vacation during the month
+    for resident in residents:
+        for month in months:
+            if month.month in resident.offserviceMonths:
+                print resident.name, "is offservice in", month.month
+                month.residentsAvailable.remove(resident)
+            elif month.month in resident.monthsWithVacation:
+                print resident.name, "has vacation time in", month.month
+                month.residentsAvailable.remove(resident)
+    #for month in months:
+        #print [residentAvailable.name for residentAvailable in month.residentsAvailable]
+    
+    
     
     return
     
