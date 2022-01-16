@@ -26,7 +26,7 @@ def main():
     dates = makeListOfDates(startDate, endDate, allResidents)
     updateAvailability(dates, allResidents)
     assignHolidays()
-    assignNightFloat(allResidents, dates)
+    #assignNightFloat(allResidents, dates)
     assignFridays()
     assignOpenShifts()
     exportToCSV()
