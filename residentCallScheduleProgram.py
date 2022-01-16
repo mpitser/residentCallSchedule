@@ -78,6 +78,7 @@ def updateAvailability(dates, residents):
                 if vacationDay == date.day:
                     print "it's a vacation"
                     removeResidentFromShifts(date, resident, Shift.Shift.allShifts)
+                    resident.addMonthWithVacation(date.day.strftime("%B"))
                     
             #remove offservice months
             for offserviceMonth in resident.offserviceMonths:
